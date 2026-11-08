@@ -81,6 +81,8 @@ h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing
 .examples table { border-collapse: collapse; width: 100%; font: 12.5px/1.45 var(--mono); }
 .examples td { padding: 5px 6px; border-top: 1px solid var(--line); vertical-align: top; word-break: break-word; }
 .examples td:nth-child(2) { color: var(--muted); width: 1%; white-space: nowrap; }
+.examples .test-label { color: var(--muted); font-size: 11px; margin-top: 2px; }
+.examples h3 + table, .examples table + h3 { margin-top: 10px; }
 .coach-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
 .coach-buttons button, .tools button { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 12px; }
 .coach-buttons button:disabled, .tools button:disabled { opacity: .45; cursor: default; }
@@ -690,7 +692,9 @@ function renderSubject() {
     el("div", { class: "statement" }, s.description),
     el("pre", { class: "sig" }, s.signature));
   const examples = el("div", { class: "card examples" }, el("h3", {}, "Exemples"),
-    el("table", {}, el("tbody", {}, ...s.examples.map(e => el("tr", {}, el("td", {}, e.input), el("td", {}, "→"), el("td", {}, e.output))))));
+    el("table", {}, el("tbody", {}, ...s.examples.map(e => el("tr", {}, el("td", {}, e.input), el("td", {}, "→"), el("td", {}, e.output))))),
+    s.extra.length ? el("h3", {}, "Tous les autres tests, avec leur sortie") : "",
+    s.extra.length ? el("table", {}, el("tbody", {}, ...s.extra.map(e => el("tr", {}, el("td", {}, e.input, e.label ? el("div", { class: "test-label" }, e.label) : ""), el("td", {}, "→"), el("td", {}, e.output))))) : "");
   const coach = el("div", { class: "card" }, el("h3", {}, "Aide"),
     el("div", { class: "coach-buttons" }, hintButton, stepsButton, answerButton),
     hintsBox);
